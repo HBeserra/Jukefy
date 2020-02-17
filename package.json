@@ -4,6 +4,7 @@
   "description": "Basic controller for a wifi speaker using raspberry pi and spotify api",
   "main": "app.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
