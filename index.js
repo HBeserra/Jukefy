@@ -15,7 +15,12 @@ var cookieParser = require('cookie-parser');
 
 var client_id = 'ff4571e3e25c43328413ba16b7c724ab'; // Your client id
 var client_secret = '65ce233804604f759eea72d31cddf03d'; // Your secret
-var redirect_uri = 'http://192.168.1.34:8888/callback'; // Your redirect uri
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "http://192.168.1.34"
+
+var redirect_uri = HOST + ":" + PORT + '/callback'; // Your redirect uri
+
+console.log("redirect_uri:" + redirect_uri)
 
 /**
  * Generates a random string containing numbers and letters
@@ -143,7 +148,7 @@ app.get('/refresh_token', function (req, res) {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Our app is running on port ${PORT}`);
 });
