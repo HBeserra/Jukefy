@@ -16,13 +16,9 @@ var cookieParser = require('cookie-parser');
 var client_id = 'ff4571e3e25c43328413ba16b7c724ab'; // Your client id
 var client_secret = '65ce233804604f759eea72d31cddf03d'; // Your secret
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || "http://192.168.1.34"
-
-var redirect_uri = HOST + ":" + PORT + '/callback'; // Your redirect uri
+var redirect_uri = "https://jukebr.herokuapp.com:" + PORT + '/callback'; // Your redirect uri
 
 console.log("redirect_uri:" + redirect_uri)
-console.log("domain" + process.env.HOST)
-
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
