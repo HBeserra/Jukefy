@@ -1,0 +1,26 @@
+{
+  "name": "jukefy",
+  "version": "0.1.0",
+  "description": "Basic controller for a wifi speaker using raspberry pi and spotify api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HBeserra/Jukefy.git"
+  },
+  "author": "Herbert F Beserra <herbert.beserra@gmail.com> (https://testlabr.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HBeserra/Jukefy/issues"
+  },
+  "homepage": "https://github.com/HBeserra/Jukefy#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "querystring": "^0.2.0",
+    "request": "^2.88.2"
+  }
+}
