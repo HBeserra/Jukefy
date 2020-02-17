@@ -21,6 +21,7 @@ const HOST = process.env.HOST || "http://192.168.1.34"
 var redirect_uri = HOST + ":" + PORT + '/callback'; // Your redirect uri
 
 console.log("redirect_uri:" + redirect_uri)
+console.log("domain" + process.env.HOST)
 
 /**
  * Generates a random string containing numbers and letters
