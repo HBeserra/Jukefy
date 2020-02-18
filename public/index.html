@@ -124,7 +124,7 @@
             refresh_token: refresh_token
           });
           console.log("loop")
-          t = refresh_token
+          window.t = refresh_token
           loop()
           myVar = setInterval(loop, 3000);
 
@@ -194,7 +194,7 @@
         $.ajax({
           url: '/refresh_token',
           data: {
-            'refresh_token': t
+            'refresh_token': window.t
           }
         }).done(function (data) {
           access_token = data.access_token;
