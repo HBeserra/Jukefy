@@ -183,8 +183,11 @@
         },
         success: function (response) {
           console.log(response)
-          if (response[0] = 'true') {
+          if (response[0] == true) {
             console.log("Like")
+            //  
+
+            element.insertAdjacentHTML(posição, texto);
           } else {
             console.log("Don't Like")
           }
@@ -209,6 +212,7 @@
 
 
   </script>
+  <script src="https://kit.fontawesome.com/edca28291c.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
