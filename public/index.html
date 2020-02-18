@@ -123,27 +123,7 @@
             access_token: access_token,
             refresh_token: refresh_token
           });
-          $.ajax({
-            url: 'https://api.spotify.com/v1/me/player',
-            headers: {
-              'Authorization': 'Bearer ' + access_token
-            },
-            success: function (response) {
-              //try...catch
-              try {
-                console.log(response.item.album.images[0].url)
-                document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
-                document.querySelector("#right p").innerText = response.item.album.artists[0].name
-                document.querySelector("#right h1").innerText = response.item.name
-
-              } catch (error) {
-                console.log(error)
-              }
-
-              $('#login').hide();
-              $('#loggedin').hide();
-            }
-          });
+          window.setInterval(loop(), 3000);
 
           /*$.ajax({
             url: 'https://api.spotify.com/v1/me',
@@ -179,6 +159,49 @@
         }, false);
       }
     })();
+
+
+
+
+    function loop() {
+      try {
+        $.ajax({
+          url: 'https://api.spotify.com/v1/me/player',
+          headers: {
+            'Authorization': 'Bearer ' + access_token
+          },
+          success: function (response) {
+            //try...catch
+            try {
+              console.log(response.item.album.images[0].url)
+              document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
+              document.querySelector("#right p").innerText = response.item.album.artists[0].name
+              document.querySelector("#right h1").innerText = response.item.name
+
+            } catch (error) {
+              console.log(error)
+
+            }
+
+            $('#login').hide();
+            $('#loggedin').hide();
+          }
+        });
+      } catch (error) {
+        $.ajax({
+          url: '/refresh_token',
+          data: {
+            'refresh_token': refresh_token
+          }
+        }).done(function (data) {
+          access_token = data.access_token;
+          oauthPlaceholder.innerHTML = oauthTemplate({
+            access_token: access_token,
+            refresh_token: refresh_token
+          });
+        });
+      }
+    }
   </script>
 </body>
 
