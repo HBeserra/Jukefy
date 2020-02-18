@@ -85,7 +85,7 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script>
     (function () {
-
+      var t;
       /**
        * Obtains parameters from the hash of the URL
        * @return Object
@@ -123,7 +123,10 @@
             access_token: access_token,
             refresh_token: refresh_token
           });
-          myVar = setInterval(loop(refresh_token), 3000);
+          console.log("loop")
+          t = refresh_token
+          loop()
+          myVar = setInterval(loop, 3000);
 
           /*$.ajax({
             url: 'https://api.spotify.com/v1/me',
