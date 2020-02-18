@@ -152,6 +152,7 @@
           }
         });
       } catch (error) {
+        console.log(error)
         $.ajax({
           url: '/refresh_token',
           data: {
@@ -159,6 +160,7 @@
           }
         }).done(function (data) {
           access_token = data.access_token;
+          console.log(access_token)
         });
       }
     }
