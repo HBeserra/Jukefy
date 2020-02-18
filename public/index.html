@@ -123,7 +123,7 @@
             access_token: access_token,
             refresh_token: refresh_token
           });
-          window.setInterval(loop(refresh_token), 3000);
+          myVar = setInterval(loop(refresh_token), 3000);
 
           /*$.ajax({
             url: 'https://api.spotify.com/v1/me',
