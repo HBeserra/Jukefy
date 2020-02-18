@@ -134,6 +134,8 @@
             try {
               //console.log(response)
               if (response.item.id != window.id) {
+                console.log(response)
+                console.log("ID:" + response.item.id)
                 document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
                 document.querySelector("#right p").innerText = response.item.album.artists[0].name
                 document.querySelector("#right h1").innerText = response.item.name
