@@ -153,7 +153,7 @@
                 document.querySelector("#right p").innerText = response.item.album.artists[0].name
                 document.querySelector("#right h1").innerText = response.item.name
                 like(response.item.id)
-                window.id = response.id
+                window.id = response.item.id
               }
             } catch (error) {
               console.log(error)
@@ -185,7 +185,7 @@
         },
         success: function (response) {
           console.log(response)
-          if (response = true) {
+          if (response[0] = true) {
             console.log("Like")
           } else {
             console.log("Don't Like")
