@@ -116,21 +116,6 @@
           $('#login').show();
           //$('#loggedin').hide();
         }
-
-        document.getElementById('obtain-new-token').addEventListener('click', function () {
-          $.ajax({
-            url: '/refresh_token',
-            data: {
-              'refresh_token': refresh_token
-            }
-          }).done(function (data) {
-            access_token = data.access_token;
-            /* oauthPlaceholder.innerHTML = oauthTemplate({
-               access_token: access_token,
-               refresh_token: refresh_token
-             });*/
-          });
-        }, false);
       }
     })();
 
@@ -147,7 +132,7 @@
           success: function (response) {
             //try...catch
             try {
-              console.log(response)
+              //console.log(response)
               if (response.item.id != window.id) {
                 document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
                 document.querySelector("#right p").innerText = response.item.album.artists[0].name
