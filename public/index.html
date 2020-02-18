@@ -105,8 +105,26 @@
             access_token: access_token,
             refresh_token: refresh_token
           });
-
           $.ajax({
+            url: 'https://api.spotify.com/v1/me/player',
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+            success: function (response) {
+              //try...catch
+              try {
+                console.log(response.item.album.images[2].url)
+
+              } catch (error) {
+                console.log(error)
+              }
+
+              //$('#login').hide();
+              //$('#loggedin').show();
+            }
+          });
+
+          /*$.ajax({
             url: 'https://api.spotify.com/v1/me',
             headers: {
               'Authorization': 'Bearer ' + access_token
@@ -114,13 +132,13 @@
             success: function (response) {
               userProfilePlaceholder.innerHTML = userProfileTemplate(response);
 
-              $('#login').hide();
-              $('#loggedin').show();
+              //$('#login').hide();
+              //$('#loggedin').show();
             }
-          });
+          });*/
         } else {
           // render initial screen
-          $('#login').show();
+          $('#login').hide();
           $('#loggedin').hide();
         }
 
