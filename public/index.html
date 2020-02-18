@@ -147,14 +147,14 @@
           success: function (response) {
             //try...catch
             try {
-              console.log(response)
-
-
-
-              document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
-              document.querySelector("#right p").innerText = response.item.album.artists[0].name
-              document.querySelector("#right h1").innerText = response.item.name
-
+              console.log(response.id)
+              if (response.id != window.id) {
+                document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
+                document.querySelector("#right p").innerText = response.item.album.artists[0].name
+                document.querySelector("#right h1").innerText = response.item.name
+                like(response.id)
+                window.id = response.id
+              }
             } catch (error) {
               console.log(error)
 
@@ -175,6 +175,23 @@
         });
       }
     }
+
+    function like(id) {
+
+      $.ajax({
+        url: 'https://api.spotify.com/v1/me/tracks/contains?ids=' + id,
+        headers: {
+          'Authorization': 'Bearer ' + access_token
+        },
+        success: function (response) {
+          if (response) {
+            console.log("Like")
+          } else {
+            console.log("Don't Like")
+          }
+        }
+
+      }
   </script>
 </body>
 
