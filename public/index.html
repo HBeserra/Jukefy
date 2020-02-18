@@ -166,7 +166,7 @@
 
 
 
-    function loop(token) {
+    function loop() {
       try {
         $.ajax({
           url: 'https://api.spotify.com/v1/me/player',
@@ -194,7 +194,7 @@
         $.ajax({
           url: '/refresh_token',
           data: {
-            'refresh_token': token
+            'refresh_token': t
           }
         }).done(function (data) {
           access_token = data.access_token;
