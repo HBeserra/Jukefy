@@ -123,7 +123,7 @@
             access_token: access_token,
             refresh_token: refresh_token
           });
-          window.setInterval(loop(), 3000);
+          window.setInterval(loop(refresh_token), 3000);
 
           /*$.ajax({
             url: 'https://api.spotify.com/v1/me',
@@ -163,7 +163,7 @@
 
 
 
-    function loop() {
+    function loop(token) {
       try {
         $.ajax({
           url: 'https://api.spotify.com/v1/me/player',
@@ -191,7 +191,7 @@
         $.ajax({
           url: '/refresh_token',
           data: {
-            'refresh_token': refresh_token
+            'refresh_token': token
           }
         }).done(function (data) {
           access_token = data.access_token;
