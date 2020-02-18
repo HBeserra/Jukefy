@@ -182,14 +182,14 @@
           'Authorization': 'Bearer ' + access_token
         },
         success: function (response) {
-          console.log(response)
+          console.log(response[0])
+          $('.like').remove();
           if (response[0] == true) {
             console.log("Like")
-            //  
-            document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='far fa-heart text-white display-4'></i>")
+            document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='like far fa-heart text-white display-4'></i>")
           } else {
             console.log("Don't Like")
-            document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='fas fa-heart text-white display-4'></i>")
+            document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='like fas fa-heart text-white display-4'></i>")
           }
         }
       })
