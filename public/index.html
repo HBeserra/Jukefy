@@ -184,7 +184,8 @@
           'Authorization': 'Bearer ' + access_token
         },
         success: function (response) {
-          if (response) {
+          console.log(response)
+          if (response = true) {
             console.log("Like")
           } else {
             console.log("Don't Like")
