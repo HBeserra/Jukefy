@@ -16,7 +16,13 @@ var cookieParser = require('cookie-parser');
 var client_id = 'ff4571e3e25c43328413ba16b7c724ab'; // Your client id
 var client_secret = '65ce233804604f759eea72d31cddf03d'; // Your secret
 const PORT = process.env.PORT || 3000;
-var redirect_uri = "https://jukebr.herokuapp.com/callback"; // Your redirect uri
+
+if (process.env.PORT != null) {
+  var redirect_uri = "https://jukebr.herokuapp.com/callback"; // Your redirect uri
+} else {
+  var redirect_uri = "http://localhost:3000/callback"; // Your redirect uri
+}
+
 
 console.log("redirect_uri:" + redirect_uri)
 /**
@@ -143,6 +149,55 @@ app.get('/refresh_token', function (req, res) {
       });
     }
   });
+});
+
+
+app.get('/currently-playing', function (req, res) {
+
+  //console.log(req.headers)
+  console.log(req.headers.music_id)
+  console.log("access_token:" + req.headers.access_token)
+  var currently_playing = {
+    url: 'https://api.spotify.com/v1/me/player/currently-playing',
+    headers: { 'Authorization': 'Bearer ' + req.headers.access_token },
+    json: true
+  }
+
+  request.get(currently_playing, function (error, response, body) {
+    //console.log(body);
+    if (!error && response.statusCode === 200) {
+
+      if (req.headers.music_id != body.item.id) {
+        console.log(body.item.name)
+        res.status(200)
+        res.send(body);
+      } else {
+        res.status(204)
+        res.end()
+      }
+    }
+  });
+
+  // requesting access token from refresh token
+  /*var refresh_token = req.query.refresh_token;
+  var authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    },
+    json: true
+  };
+
+  request.post(authOptions, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token;
+      res.send({
+        'access_token': access_token
+      });
+    }
+  });*/
 });
 
 

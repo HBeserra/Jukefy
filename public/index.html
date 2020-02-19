@@ -110,7 +110,7 @@
           console.log("loop")
           window.t = refresh_token
           loop()
-          myVar = setInterval(loop, 3000);
+          myVar = setInterval(loop, 1000);
 
           /*$.ajax({
             url: 'https://api.spotify.com/v1/me',
@@ -138,38 +138,39 @@
     function loop() {
       try {
         $.ajax({
-          url: 'https://api.spotify.com/v1/me/player/currently-playing',
+          url: '/currently-playing',
           headers: {
-            'Authorization': 'Bearer ' + access_token
+            'access_token': access_token,
+            'music_id': window.id
           },
-          success: function (response) {
-            //try...catch
-            try {
-              //console.log(response)
-              if (response.item.id != window.id) {
-                console.log(response)
-                console.log("ID:" + response.item.id)
-                document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
-                document.querySelector("#right p").innerText = response.item.album.artists[0].name
-                document.querySelector("#right h1").innerText = response.item.name
-                like(response.item.id)
-                window.id = response.item.id
+          statusCode: {
+            200: function (response) {
+              console.log(response)
+
+              if (response != 'ok') {
+                try {
+                  console.log(response)
+                  if (response.item.id != window.id) {
+                    //console.log(response)
+                    //console.log("ID:" + response.item.id)
+                    document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
+                    document.querySelector("#right p").innerText = response.item.album.artists[0].name
+                    document.querySelector("#right h1").innerText = response.item.name
+                    like(response.item.id)
+                    window.id = response.item.id
+                  }
+                } catch (error) {
+                  console.log(error)
+                  refreshToken()
+                }
+
+                $('#login').hide();
               }
-            } catch (error) {
-              console.log(error)
-
             }
-
-            $('#login').hide();
-            //$('#loggedin').hide();
-          },
-          error: function (jq, status, message) {
-            alert('A jQuery error has occurred. Status: ' + status + ' - Message: ' + message);
-            refreshToken()
           }
-        });
+        })
       } catch (error) {
-        console.log(error)
+        console.log("Erro na api /currently-playing - " + error)
         refreshToken()
       }
     }
@@ -182,13 +183,13 @@
           'Authorization': 'Bearer ' + access_token
         },
         success: function (response) {
-          console.log(response[0])
+          //console.log(response[0])
           $('.like').remove();
           if (response[0] == true) {
-            console.log("Like")
+            //console.log("Like")
             document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='like fas fa-heart text-white display-4'></i>")
           } else {
-            console.log("Don't Like")
+            //console.log("Don't Like")
             document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='like far fa-heart text-white display-4'></i>")
           }
         }
