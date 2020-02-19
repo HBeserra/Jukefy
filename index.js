@@ -169,12 +169,20 @@ app.get('/currently-playing', function (req, res) {
 
       if (req.headers.music_id != body.item.id) {
         console.log(body.item.name)
-        res.status(200)
-        res.send(body);
+        res.send({
+          'is_playing': body.is_playing,
+          'progress_ms': body.progress_ms,
+          'body': body
+        })
       } else {
-        res.status(204)
-        res.end()
+        res.send({
+          'is_playing': body.is_playing,
+          'progress_ms': body.progress_ms,
+          'body': "ok"
+        })
       }
+    } else {
+      res.end()
     }
   });
 

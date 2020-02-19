@@ -67,7 +67,8 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script>
     var t,
-      id;
+      id,
+      music_time;
     (function () {
 
       /**
@@ -147,25 +148,27 @@
             200: function (response) {
               console.log(response)
 
-              if (response != 'ok') {
+              if (response.body != 'ok') {
                 try {
                   console.log(response)
-                  if (response.item.id != window.id) {
+                  if (response.body.item.id != window.id) {
                     //console.log(response)
-                    //console.log("ID:" + response.item.id)
-                    document.getElementById("left").style.backgroundImage = "url('" + response.item.album.images[0].url + "')"
-                    document.querySelector("#right p").innerText = response.item.album.artists[0].name
-                    document.querySelector("#right h1").innerText = response.item.name
-                    like(response.item.id)
-                    window.id = response.item.id
+                    //console.log("ID:" + response.body.item.id)
+                    document.getElementById("left").style.backgroundImage = "url('" + response.body.item.album.images[0].url + "')"
+                    document.querySelector("#right p").innerText = response.body.item.album.artists[0].name
+                    document.querySelector("#right h1").innerText = response.body.item.name
+                    like(response.body.item.id)
+                    window.id = response.body.item.id
+                    window.music_time = response.body.item.duration_ms
                   }
                 } catch (error) {
                   console.log(error)
                   refreshToken()
                 }
-
                 $('#login').hide();
               }
+              console.log(response.progress_ms + " - " + window.music_time + " | " + (response.progress_ms / window.music_time) * 100)
+
             }
           }
         })
