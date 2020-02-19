@@ -13,6 +13,8 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
+var Vibrant = require('node-vibrant')
+
 var client_id = 'ff4571e3e25c43328413ba16b7c724ab'; // Your client id
 var client_secret = '65ce233804604f759eea72d31cddf03d'; // Your secret
 const PORT = process.env.PORT || 3000;
@@ -165,14 +167,23 @@ app.get('/currently-playing', function (req, res) {
 
   request.get(currently_playing, function (error, response, body) {
     //console.log(body);
+
+
+
     if (!error && response.statusCode === 200) {
 
       if (req.headers.music_id != body.item.id) {
         console.log(body.item.name)
-        res.send({
-          'is_playing': body.is_playing,
-          'progress_ms': body.progress_ms,
-          'body': body
+        var color;
+        Vibrant.from(body.item.album.images[0].url).getPalette((err, palette) => {
+          console.log(palette.Vibrant);
+          color = palette.Vibrant._rgb;
+          res.send({
+            'is_playing': body.is_playing,
+            'progress_ms': body.progress_ms,
+            'body': body,
+            'color': color
+          })
         })
       } else {
         res.send({
