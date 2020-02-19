@@ -33,6 +33,10 @@
         background-position: center top;
       }
     }
+
+    #time_bar {
+      transition: width 1s;
+    }
   </style>
 </head>
 
@@ -55,6 +59,14 @@
           style="font-family: Roboto, sans-serif;font-style: normal;font-weight: normal;font-size: 60px;"></h1>
         <p class="text-uppercase" id="artists"
           style="font-size: 27px;font-family: Roboto, sans-serif;font-weight: bold;"></p>
+        <i id="like" class="fa-heart text-white display-4 far" aria-hidden="true"></i>
+        <div>
+          <div class="d-xl-flex">
+            <p id="progress_ms" class="mr-auto">0</p>
+            <p id="duration_ms" class="ml-auto">0</p>
+          </div>
+          <div id="time_bar" class="border rounded" style="background-color: #ffffff;height: 4px; width: 0;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -128,6 +140,7 @@
         } else {
           // render initial screen
           $('#login').show();
+          $('#box').hide();
           //$('#loggedin').hide();
         }
       }
@@ -160,14 +173,21 @@
                     like(response.body.item.id)
                     window.id = response.body.item.id
                     window.music_time = response.body.item.duration_ms
+                    document.querySelector('#duration_ms').innerText = convertMS(window.music_time)
                   }
                 } catch (error) {
                   console.log(error)
                   refreshToken()
                 }
                 $('#login').hide();
+                $('#box').show();
               }
-              console.log(response.progress_ms + " - " + window.music_time + " | " + (response.progress_ms / window.music_time) * 100)
+              //console.log(response.progress_ms + " - " + window.music_time + " | " + (response.progress_ms / window.music_time) * 100)
+              document.querySelector("#time_bar").style.width = ((response.progress_ms / window.music_time) * 100) + "%"
+              document.querySelector('#progress_ms').innerText = convertMS(response.progress_ms)
+
+
+              // "<div style='height: 1px;background-color: #ffffff;'><div class='d-xl-flex'><p class='mr-auto'>2:80</p><p class='ml-auto'>3:10</p></div><div class='border rounded' style='background-color: #ffffff;height: 4px;width: 90%;'></div></div>"
 
             }
           }
@@ -186,14 +206,13 @@
           'Authorization': 'Bearer ' + access_token
         },
         success: function (response) {
-          //console.log(response[0])
-          $('.like').remove();
+
           if (response[0] == true) {
-            //console.log("Like")
-            document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='like fas fa-heart text-white display-4'></i>")
+            try { document.querySelector("#like").classList.remove("far") } catch (error) { }
+            document.querySelector("#like").classList.add("fas")
           } else {
-            //console.log("Don't Like")
-            document.querySelector("#right div").insertAdjacentHTML('beforeend', "<i class='like far fa-heart text-white display-4'></i>")
+            try { document.querySelector("#like").classList.remove("fas") } catch (error) { }
+            document.querySelector("#like").classList.add("far")
           }
         }
       })
@@ -212,7 +231,17 @@
       });
     }
 
-
+    function convertMS(milliseconds) {
+      var minute, seconds;
+      seconds = Math.floor(milliseconds / 1000);
+      minute = Math.floor(seconds / 60);
+      seconds = seconds % 60;
+      minute = minute % 60;
+      if (seconds < 10) {
+        seconds = '0' + seconds
+      }
+      return (minute + ":" + seconds)
+    }
 
 
   </script>
