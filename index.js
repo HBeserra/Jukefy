@@ -157,8 +157,8 @@ app.get('/refresh_token', function (req, res) {
 app.get('/currently-playing', function (req, res) {
 
   //console.log(req.headers)
-  console.log(req.headers.music_id)
-  console.log("access_token:" + req.headers.access_token)
+  //console.log(req.headers.music_id)
+  //console.log("access_token:" + req.headers.access_token)
   var currently_playing = {
     url: 'https://api.spotify.com/v1/me/player/currently-playing',
     headers: { 'Authorization': 'Bearer ' + req.headers.access_token },
@@ -171,26 +171,51 @@ app.get('/currently-playing', function (req, res) {
 
 
     if (!error && response.statusCode === 200) {
+      if (body != null) {
+        if (req.headers.music_id != body.item.id) {
+          console.log(body.item.name)
+          var color;
 
-      if (req.headers.music_id != body.item.id) {
-        console.log(body.item.name)
-        var color;
-        Vibrant.from(body.item.album.images[0].url).getPalette((err, palette) => {
-          console.log(palette.Vibrant);
-          color = palette.Vibrant._rgb;
+          Vibrant.from(body.item.album.images[0].url).getSwatches((err, swatches) => {
+
+            let ourColours = [];
+
+            for (let key in swatches) {
+
+              if (swatches.hasOwnProperty(key) && (swatches[key]) != null) {
+
+                ourColours.push({
+                  color: (swatches[key]).getHex(),
+                  text: (swatches[key]).getTitleTextColor()
+                });
+
+              }
+            }
+
+            let randomItem = ourColours[Math.floor(Math.random() * ourColours.length)];
+
+            //console.log(randomItem.color);
+            //console.log(randomItem.text);
+
+            res.send({
+              'is_playing': body.is_playing,
+              'progress_ms': body.progress_ms,
+              'body': body,
+              'color': [randomItem.color, randomItem.text]
+            })
+
+
+          });
+
+
+
+        } else {
           res.send({
             'is_playing': body.is_playing,
             'progress_ms': body.progress_ms,
-            'body': body,
-            'color': color
+            'body': "ok"
           })
-        })
-      } else {
-        res.send({
-          'is_playing': body.is_playing,
-          'progress_ms': body.progress_ms,
-          'body': "ok"
-        })
+        }
       }
     } else {
       res.end()

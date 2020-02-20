@@ -17,7 +17,7 @@
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,900">
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.min.css?h=208d4826ec51fd9503a6c3662b510a4d">
   <meta name="theme-color" content="#000000">
   <link rel="manifest" href="/manifest.json">
@@ -49,21 +49,25 @@
     </div>
   </div>
   <div id="box" style="width: 100%;height: 100%;background-color: #000000;max-height: 100%;">
-    <div id="left" style="background-size: contain;background-repeat: no-repeat;">
+    <div id="left" style="padding: 10%;">
+      <div
+        style="background-size: contain;background-repeat: no-repeat; width: 100%; height: 100%; background-position: center;">
+      </div>
     </div>
     <div
       class="d-flex justify-content-center align-items-center align-items-sm-start align-items-md-center align-items-lg-center align-items-xl-center"
       id="right" style="width: 100%;">
       <div class="text-center" style="color: #FFFFFF; width: 80%">
         <h1 class="text-uppercase" id="music"
-          style="font-family: Roboto, sans-serif;font-style: normal;font-weight: normal;font-size: 60px;"></h1>
+          style="font-family: 'Fira Sans', sans-serif;font-style: normal;font-weight: normal;font-size: 40px; font-weight: 900;">
+        </h1>
         <p class="text-uppercase" id="artists"
-          style="font-size: 27px;font-family: Roboto, sans-serif;font-weight: bold;"></p>
-        <i id="like" class="fa-heart text-white display-4 far" aria-hidden="true"></i>
+          style="font-size: 27px;font-family: 'Fira Sans', sans-serif;font-weight: 700;"></p>
+        <i id="like" class="fa-heart text-white far" style="font-size: 2em;" aria-hidden="true"></i>
         <div>
-          <div class="d-xl-flex">
-            <p id="progress_ms" class="mr-auto">0</p>
-            <p id="duration_ms" class="ml-auto">0</p>
+          <div class="d-flex">
+            <p id="progress_ms" class="mr-auto" style="font-weight: bold;">0</p>
+            <p id="duration_ms" class="ml-auto" style="font-weight: bold;">0</p>
           </div>
           <div id="time_bar" class="border rounded" style="background-color: #ffffff;height: 4px; width: 0;"></div>
         </div>
@@ -167,7 +171,7 @@
                   if (response.body.item.id != window.id) {
                     //console.log(response)
                     //console.log("ID:" + response.body.item.id)
-                    document.getElementById("left").style.backgroundImage = "url('" + response.body.item.album.images[0].url + "')"
+                    document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[0].url + "')"
                     document.querySelector("#right p").innerText = response.body.item.album.artists[0].name
                     document.querySelector("#right h1").innerText = response.body.item.name
                     like(response.body.item.id)
@@ -175,8 +179,8 @@
                     window.music_time = response.body.item.duration_ms
                     document.querySelector('#duration_ms').innerText = convertMS(window.music_time)
 
-                    document.querySelector('#box').style.background = "linear-gradient(-90deg, rgba(0,0,0,0) 0%, rgba(" + response.color[0] + "," + response.color[1] + "," + response.color[2] + ",1) 60%)"
-
+                    document.querySelector('#box').style.background = "linear-gradient(90deg, " + response.color[0] + "FF 0%, " + response.color[0] + "B3   100%)"
+                    document.querySelector('#right div').style.color = response.color[1]
 
                   }
                 } catch (error) {
@@ -187,9 +191,10 @@
                 $('#box').show();
               }
               //console.log(response.progress_ms + " - " + window.music_time + " | " + (response.progress_ms / window.music_time) * 100)
-              document.querySelector("#time_bar").style.width = ((response.progress_ms / window.music_time) * 100) + "%"
-              document.querySelector('#progress_ms').innerText = convertMS(response.progress_ms)
-
+              if (response.progress_ms) {
+                document.querySelector("#time_bar").style.width = ((response.progress_ms / window.music_time) * 100) + "%"
+                document.querySelector('#progress_ms').innerText = convertMS(response.progress_ms)
+              }
               // "<div style='height: 1px;background-color: #ffffff;'><div class='d-xl-flex'><p class='mr-auto'>2:80</p><p class='ml-auto'>3:10</p></div><div class='border rounded' style='background-color: #ffffff;height: 4px;width: 90%;'></div></div>"
 
             }
