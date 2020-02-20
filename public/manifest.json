@@ -7,7 +7,7 @@
     "scope": "/",
     "start_url": "/",
     "lang": "pt-BR",
-    "orientation": "any",
+    "orientation": "landscape",
     "icons": [
         {
             "src": "/assets/img/logo.png",
