@@ -48,7 +48,7 @@
         Spotify</a>
     </div>
   </div>
-  <div id="box" style="width: 100%;height: 100%;background-color: #000000;max-height: 100%;">
+  <div id="box" style="width: 100%;height: 100%;background-color: #000000;max-height: 100%; display: none;">
     <div id="left" style="padding: 10%;">
       <div
         style="background-size: contain;background-repeat: no-repeat; width: 100%; height: 100%; background-position: center;">
@@ -72,6 +72,12 @@
           <div id="time_bar" class="border rounded" style="background-color: #ffffff;height: 4px; width: 0;"></div>
         </div>
       </div>
+    </div>
+  </div>
+  <div id="nomusic" style="display: none;">
+    <div class="container text-center">
+
+      <h4 class="mt-5" style="color: #FFFFFF;">Nenhuma musica :(</h4>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -170,18 +176,26 @@
                 try {
                   console.log(response)
                   if (response.body.item.id != window.id) {
-                    //console.log(response)
+                    console.log(response)
                     //console.log("ID:" + response.body.item.id)
-                    document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[0].url + "')"
-                    document.querySelector("#right p").innerText = response.body.item.album.artists[0].name
-                    document.querySelector("#right h1").innerText = response.body.item.name
-                    like(response.body.item.id)
-                    window.id = response.body.item.id
-                    window.music_time = response.body.item.duration_ms
-                    document.querySelector('#duration_ms').innerText = convertMS(window.music_time)
+                    if (response.is_playing === true) {
+                      document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[0].url + "')"
+                      document.querySelector("#right p").innerText = response.body.item.album.artists[0].name
+                      document.querySelector("#right h1").innerText = response.body.item.name
+                      like(response.body.item.id)
+                      window.id = response.body.item.id
+                      window.music_time = response.body.item.duration_ms
+                      document.querySelector('#duration_ms').innerText = convertMS(window.music_time)
 
-                    document.querySelector('#box').style.background = "linear-gradient(90deg, " + response.color[0] + "FF 0%, " + response.color[0] + "B3   100%)"
-                    document.querySelector('#right div').style.color = response.color[1]
+                      document.querySelector('#box').style.background = "linear-gradient(90deg, " + response.color[0] + "FF 0%, " + response.color[0] + "B3   100%)"
+                      document.querySelector('#right div').style.color = response.color[1]
+                      $('#box').show();
+                      $('#nomusic').hide();
+                    } else {
+                      $('#box').hide();
+                      $('#nomusic').show();
+                      console.log("---")
+                    }
 
                   }
                 } catch (error) {
@@ -189,7 +203,6 @@
                   refreshToken()
                 }
                 $('#login').hide();
-                $('#box').show();
               }
               //console.log(response.progress_ms + " - " + window.music_time + " | " + (response.progress_ms / window.music_time) * 100)
               if (response.progress_ms) {
