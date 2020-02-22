@@ -10,7 +10,7 @@
     "orientation": "landscape",
     "icons": [
         {
-            "src": "/assets/img/logo.png",
+            "src": "/assets/img/icons/ms-icon-310x310.png",
             "sizes": "512x512",
             "type": "image/png"
         }
