@@ -2,7 +2,24 @@
 <html>
 
 <head>
-    <title>Example of the Authorization Code flow with Spotify</title>
+    <title>Juke Box by Test Lab</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/img/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/img/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/img/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/img/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/img/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/img/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/img/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/icons/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#191414">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#191414">
+    <link rel="manifest" href="/manifest.json">
     <style type="text/css">
         #login,
         #loggedin {
@@ -19,7 +36,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.min.css?h=208d4826ec51fd9503a6c3662b510a4d">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#191414">
     <link rel="manifest" href="/manifest.json">
     <style>
         @media (orientation: landscape) {
@@ -40,20 +57,24 @@
     </style>
 </head>
 
-<body style="background-color: black;">
-    <div class="container">
-        <div id="login" style="padding-top: 25vh;">
-            <h1 class="m-5 text-center" style="color: #FFFFFF;">This is an example of the Authorization Code flow</h1>
+<body style="background-color:#191414;">
+    <div id="login" class="container">
+        <div class="row align-items-center" style="height: 99vh">
+            <div class="col-12 justify-content-center text-center">
+                <img src="/assets/img/icons/juke.png" style=" width: auto; max-width: 100%;">
+                <h3 class="mb-5 text-center text-white-50  text-uppercase">Insira o código exibido na sua JukeBox</h3>
 
-            <div class="form-group mb-5">
-                <label for="inputPassword2" class="sr-only">Code</label>
-                <input type="number" class="form-control text-white bg-dark" id="inputCode" placeholder="Code">
+                <div class="form-group mb-5">
+                    <label for="inputPassword2" class="sr-only">Code</label>
+                    <input type="number" class="form-control text-white bg-dark" id="inputCode"
+                        placeholder="Insira o seu codigo">
+                </div>
+                <button onclick="validateForm()" value="submit" class="btn text-uppercase text-white"
+                    style=" width: 100%; font-size: 1.5em; background-color: #1DB954;">Login pelo
+                    Spotify</button>
+                </button>
             </div>
-            <button onclick="validateForm()" value="submit" class="btn btn-primary"
-                style="color:#FFFFFF; width: 100%; font-size: 2em">Log
-                in with
-                Spotify</button>
-            </button>
+
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script

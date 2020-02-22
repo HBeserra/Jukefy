@@ -1,8 +1,8 @@
 {
     "name": "JukeBox by TestLab BR",
     "short_name": "Juke",
-    "theme_color": "#000000",
-    "background_color": "#000000",
+    "theme_color": "#191414",
+    "background_color": "#191414",
     "display": "standalone",
     "scope": "/",
     "start_url": "/",

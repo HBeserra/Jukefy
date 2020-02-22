@@ -320,9 +320,12 @@ app.get('/currently-playing', function (req, res) {
 
 
     if (!error && response.statusCode === 200) {
-      if (body != null) {
-        if (req.headers.music_id != body.item.id) {
+      console.log(body)
+      if ((body != null) && (body.item != null)) {
+
+        if ((body.item.id) && (req.headers.music_id != body.item.id)) {
           console.log(body.item.name)
+
           var color;
 
           Vibrant.from(body.item.album.images[0].url).getSwatches((err, swatches) => {
@@ -362,9 +365,17 @@ app.get('/currently-playing', function (req, res) {
           res.send({
             'is_playing': body.is_playing,
             'progress_ms': body.progress_ms,
-            'body': "ok"
+            'body': "ok",
+            currently_playing_type: body.currently_playing_type
           })
         }
+      } else {
+        res.send({
+          'is_playing': body.is_playing,
+          'progress_ms': body.progress_ms,
+          'body': "ok",
+          currently_playing_type: body.currently_playing_type
+        })
       }
     } else {
       res.end()
