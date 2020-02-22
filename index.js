@@ -372,6 +372,12 @@ app.get('/currently-playing', function (req, res) {
   });
 });
 
+//JukeBox/
+
+
+app.get('/jukebox', function (req, res) {
+  res.redirect('/JukeBox');
+})
 
 app.listen(PORT, () => {
   console.log(`Our app is running on port ${PORT}`);
