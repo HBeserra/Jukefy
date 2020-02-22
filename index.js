@@ -25,6 +25,7 @@ if (process.env.PORT != null) {
   var redirect_uri = "http://localhost:3000/callback"; // Your redirect uri
 }
 
+var login = [];
 
 console.log("redirect_uri:" + redirect_uri)
 /**
@@ -53,7 +54,22 @@ app.use(express.static(__dirname + '/public'))
 app.get('/login', function (req, res) {
 
   var state = generateRandomString(16);
-  res.cookie(stateKey, state);
+
+  if (req.query.qrcode) {
+    console.log("QRCode: " + req.query.qrcode)
+  }
+  let cookieMensage = {
+    state: state,
+    qrcode: req.query.qrcode
+  }
+
+  cookieMensage = JSON.stringify(cookieMensage)
+
+  res.cookie(stateKey, cookieMensage);
+
+
+
+
 
   // your application requests authorization
   var scope = 'user-read-private user-read-email user-read-playback-state user-library-read user-modify-playback-state';
@@ -63,7 +79,7 @@ app.get('/login', function (req, res) {
       client_id: client_id,
       scope: scope,
       redirect_uri: redirect_uri,
-      state: state
+      state: cookieMensage
     }));
 });
 
@@ -75,6 +91,9 @@ app.get('/callback', function (req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
+
+  console.log("state  :" + state)
+  console.log("Cookie :" + storedState)
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
@@ -110,15 +129,40 @@ app.get('/callback', function (req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function (error, response, body) {
-          console.log(body);
+          //console.log(body);
         });
 
-        // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
+
+        let Qr = JSON.parse(state)
+        console.log(Qr.qrcode)
+        if (Qr.qrcode != null) {
+
+          for (let c = 0; c < login.length; c++) {
+            if (login[c].print == Qr.qrcode) {
+              console.log(login[c])
+              let key = login[c]
+              //login[c] = ""
+              login[c].access_token = access_token
+              login[c].refresh_token = refresh_token
+              console.log(login[c])
+              break
+            }
+
+          }
+
+          res.send("ok")
+
+        } else {
+          // we can also pass the token to the browser to make requests from there
+          res.redirect('/#' +
+            querystring.stringify({
+              access_token: access_token,
+              refresh_token: refresh_token
+            }));
+        }
+
+
+
       } else {
         res.redirect('/#' +
           querystring.stringify({
@@ -152,6 +196,111 @@ app.get('/refresh_token', function (req, res) {
     }
   });
 });
+
+
+app.get('/login-qr', function (req, res) {
+  let code;
+
+  do {
+    code = numberCode(6)
+  } while (codeVerify(code));
+
+  login[login.length] = {
+    print: code,
+    time: Date.now()
+  }
+  console.log(code)
+  console.log(login)
+  res.send(code)
+
+})
+
+function codeVerify(x) {
+  console.log(login)
+  if ((!login) && (login.length >= 1)) {
+    for (let a = 0; a < login.length; a++) {
+      if ((login[a].code) || (x == login[a].code)) {
+        return true;
+      }
+    }
+  }
+  return false
+
+}
+
+function numberCode(x) {
+  let code = "";
+  for (let g = 0; g < x; g++) {
+    code += Math.floor(Math.random() * 10);
+  }
+  return code
+}
+app.get('/qrcode', function (req, res) {
+  let i
+  console.log(req.query.code)
+  for (let c = 0; c < login.length; c++) {
+    if (login[c].print == req.query.code) {
+      console.log(login[c])
+
+      if ((login[c].access_token != null) && (login[c].refresh_token != null)) {
+        res.send('/#' +
+          querystring.stringify({
+            access_token: login[c].access_token,
+            refresh_token: login[c].refresh_token
+          }));
+        login.splice(c, 1);
+        i = true
+      } else {
+        res.send("200")
+        i = true
+      }
+      break
+    }
+
+  }
+  if (!i) { res.send("404") }
+})
+
+app.get('/clearcode', function (req, res) {
+
+  console.log("removing =>" + req.query.code)
+  if (req.query.code) {
+    for (let c = 0; c < login.length; c++) {
+      if (login[c].print == req.query.code) {
+        login.splice(c, 1);
+        res.send("ok")
+      } else {
+        res.send("200")
+      }
+      break
+    }
+  } else {
+    res.send("404")
+  }
+  res.send("NO CODE")
+})
+//verifycode
+app.get('/verifycode', function (req, res) {
+
+  console.log(req.query.code)
+  if (req.query.code) {
+    for (let c = 0; c < login.length; c++) {
+      if ((login[c].print == req.query.code) && (login[c].refresh_token !== undefined) && (login[c].access_token !== undefined)) {
+
+        res.send({
+          refresh_token: login[c].refresh_token,
+          access_token: login[c].access_token
+        })
+      } else {
+        res.send("200")
+      }
+      break
+    }
+  } else {
+    res.send("404")
+  }
+  res.send("NO CODE")
+})
 
 
 app.get('/currently-playing', function (req, res) {
@@ -221,27 +370,6 @@ app.get('/currently-playing', function (req, res) {
       res.end()
     }
   });
-
-  // requesting access token from refresh token
-  /*var refresh_token = req.query.refresh_token;
-  var authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true
-  };
-
-  request.post(authOptions, function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
-      res.send({
-        'access_token': access_token
-      });
-    }
-  });*/
 });
 
 

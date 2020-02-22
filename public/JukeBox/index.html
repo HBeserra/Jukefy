@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Example of the Authorization Code flow with Spotify</title>
+    <style type="text/css">
+        #login,
+        #loggedin {
+            display: none;
+        }
+
+        .text-overflow {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 500px;
+        }
+    </style>
+    <script src="qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<body style="background-color: black;">
+    <div class="container">
+        <div id="login">
+            <h1 class="m-5 text-center text-uppercase" style="color: #FFFFFF;">Para fazer login use o codigo:</h1>
+            <h2 class="m-5 text-center text-uppercase" style="color: #FFFFFF;">000000</h2>
+            <h3 class="m-5 text-uppercase text-center" style="color: #FFFFFF;"></h3>
+            <div id="qrcode" class="qrcode mx-auto pt-5" style="width: 300px;"></div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script>
+            var curent_code;
+            $('#login').show();
+            function code() {
+                $.ajax({
+                    url: '../login-qr'
+                }).done(function (data) {
+                    console.log(data)
+                    curent_code = data
+                    document.querySelector('h2').innerText = data
+                    document.querySelector('h3').innerText = window.location.host + "/qr"
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: (window.location.origin + '/login?qrcode=' + data),
+                        width: 300,
+                        height: 300,
+                        colorDark: "#FFFFFF",
+                        colorLight: "#000000",
+                        correctLevel: QRCode.CorrectLevel.H
+                    })
+                });
+            }
+
+            var i;
+            function loop() {
+                if (!i) {
+                    i = 1;
+                    code()
+                } else if (i > 5 * 60) {
+                    i = 1
+                    document.getElementById("qrcode").innerHTML = ""
+                    ClearCode(curent_code)
+                    code()
+                } else {
+                    console.log("oi")
+                    verifyCode(curent_code);
+
+                    i++
+                }
+            }
+            myVar = setInterval(loop, 1000);
+            loop();
+
+            function ClearCode(x) {
+                $.ajax({
+                    url: '../clearcode',
+                    data: {
+                        'code': x
+                    }
+                }).done(function (data) {
+                    console.log(data)
+                });
+            }
+            function verifyCode(x) {
+                $.ajax({
+                    url: '../verifycode',
+                    data: {
+                        'code': x
+                    }
+                }).done(function (data) {
+                    console.log(data)
+                });
+            }
+            // 
+            function verifyCode(x) {
+                $.ajax({
+                    url: '../qrcode',
+                    data: {
+                        'code': x
+                    }
+                }).done(function (data) {
+                    console.log(data)
+                    if (data.length > 0) {
+                        if (data[0] == '/') {
+                            window.location.href = window.location.origin + data
+                        }
+                        if (data == "404") {
+                            i = 1
+                            code();
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <script src="https://kit.fontawesome.com/edca28291c.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
