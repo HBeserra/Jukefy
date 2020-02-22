@@ -11,12 +11,14 @@ var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
-
 var Vibrant = require('node-vibrant')
 
-var client_id = 'ff4571e3e25c43328413ba16b7c724ab'; // Your client id
-var client_secret = '65ce233804604f759eea72d31cddf03d'; // Your secret
+var cookieParser = require('cookie-parser');
+require('dotenv/config');
+
+
+var client_id = process.env.CLIENT_ID // Your client id
+var client_secret = process.env.CLIENT_SECRET // Your secret
 const PORT = process.env.PORT || 3000;
 
 if (process.env.PORT != null) {
