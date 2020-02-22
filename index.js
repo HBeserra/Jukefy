@@ -72,7 +72,7 @@ app.get('/login', function (req, res) {
 
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email user-read-playback-state user-library-read user-modify-playback-state';
+  var scope = 'streaming  user-read-private user-read-email user-read-playback-state user-library-read user-modify-playback-state';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -150,7 +150,7 @@ app.get('/callback', function (req, res) {
 
           }
 
-          res.send("ok")
+          res.redirect("https://testlabr.com/")
 
         } else {
           // we can also pass the token to the browser to make requests from there
