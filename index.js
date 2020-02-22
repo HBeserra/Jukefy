@@ -320,7 +320,7 @@ app.get('/currently-playing', function (req, res) {
 
 
     if (!error && response.statusCode === 200) {
-      console.log(body)
+      //console.log(body)
       if ((body != null) && (body.item != null)) {
 
         if ((body.item.id) && (req.headers.music_id != body.item.id)) {
