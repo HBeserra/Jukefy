@@ -211,7 +211,7 @@
                     console.log(response)
                     //console.log("ID:" + response.body.item.id)
                     if (response.is_playing === true) {
-                      document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[0].url + "')"
+                      document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[3].url + "')"
                       document.querySelector("#right p").innerText = response.body.item.album.artists[0].name
                       document.querySelector("#right h1").innerText = response.body.item.name
                       like(response.body.item.id)
