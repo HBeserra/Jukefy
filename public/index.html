@@ -166,7 +166,7 @@
           window.t = refresh_token
           loop()
           myVar = setInterval(loop, 1000);
-          player(access_token);
+
 
           /*$.ajax({
             url: 'https://api.spotify.com/v1/me',
@@ -211,7 +211,7 @@
                     console.log(response)
                     //console.log("ID:" + response.body.item.id)
                     if (response.is_playing === true) {
-                      document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[3].url + "')"
+                      document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[1].url + "')"
                       document.querySelector("#right p").innerText = response.body.item.album.artists[0].name
                       document.querySelector("#right h1").innerText = response.body.item.name
                       like(response.body.item.id)
