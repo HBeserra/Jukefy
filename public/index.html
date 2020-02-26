@@ -70,7 +70,7 @@
     </div>
   </div>
   <div id="box" style="width: 100%;height: 100%;background-color: #191414;max-height: 110%; display: none;">
-    <div id="left" style="">
+    <div id="left">
       <div
         style="background-size: contain;background-repeat: no-repeat; width: 100vh; height: 100%; background-position: left center; max-width: 65vw;">
       </div>
@@ -78,19 +78,19 @@
     <div
       class="d-flex justify-content-center align-items-center align-items-sm-start align-items-md-center align-items-lg-center align-items-xl-center"
       id="right" style="width: 100%;">
-      <div class="text-center" style="color: #FFFFFF; width: 90%">
+      <div class="text-center" style="width: 90%">
         <h1 class="text-uppercase" id="music"
           style="font-family: 'Fira Sans', sans-serif;font-style: normal;font-weight: normal;font-size: 40px; font-weight: 900;">
         </h1>
         <p class="text-uppercase" id="artists"
           style="font-size: 27px;font-family: 'Fira Sans', sans-serif;font-weight: 700;"></p>
-        <i id="like" class="fa-heart text-white far" style="font-size: 2em;" aria-hidden="true"></i>
+        <i id="like" class="fa-heart far" style="font-size: 2em;" aria-hidden="true"></i>
         <div>
           <div class="d-flex">
             <p id="progress_ms" class="mr-auto" style="font-weight: bold;">0</p>
             <p id="duration_ms" class="ml-auto" style="font-weight: bold;">0</p>
           </div>
-          <div id="time_bar" class="border rounded" style="background-color: #ffffff;height: 4px; width: 0;"></div>
+          <div id="time_bar" class="border rounded" style="height: 4px; width: 0;"></div>
         </div>
       </div>
     </div>
@@ -202,54 +202,39 @@
           },
           statusCode: {
             200: function (response) {
-              //console.log(response)
-
-              if (response.body != 'ok') {
-                try {
-                  console.log(response)
-                  if (response.body.item.id != window.id) {
-                    console.log(response)
-                    //console.log("ID:" + response.body.item.id)
-                    if (response.is_playing === true) {
-                      document.querySelector('#left div').style.backgroundImage = "url('" + response.body.item.album.images[1].url + "')"
-                      document.querySelector("#right p").innerText = response.body.item.album.artists[0].name
-                      document.querySelector("#right h1").innerText = response.body.item.name
-                      like(response.body.item.id)
-                      window.id = response.body.item.id
-                      window.music_time = response.body.item.duration_ms
-                      document.querySelector('#duration_ms').innerText = convertMS(window.music_time)
-
-                      document.querySelector('#box').style.background = "linear-gradient(90deg, " + response.color[0] + "FF 0%, " + response.color[0] + "B3   100%)"
-                      document.querySelector('#right div').style.color = response.color[1]
-                      $('#box').show()
-                      $('#nomusic').hide()
-                      $('#episode').hide()
-                    } else {
-                      $('#box').hide();
-                      $('#nomusic').show();
-                      console.log("---")
-                    }
-
-                  }
-                } catch (error) {
-                  console.log(error)
-                  refreshToken()
-                }
-
-                $('#log').hide();
+              if ((response === null) || (response.is_playing === null)) {
+                console.log("Erro")
+                refreshToken()
+                return 0
               }
-              //console.log(response.progress_ms + " - " + window.music_time + " | " + (response.progress_ms / window.music_time) * 100)
-              if (response.progress_ms) {
-                document.querySelector("#time_bar").style.width = ((response.progress_ms / window.music_time) * 100) + "%"
-                document.querySelector('#progress_ms').innerText = convertMS(response.progress_ms)
-              }
-              console.log(response.currently_playing_type)
-              if (response.currently_playing_type === "episode") {
-                $('#box').hide();
-                $('#episode').show();
-              }
-              // "<div style='height: 1px;background-color: #ffffff;'><div class='d-xl-flex'><p class='mr-auto'>2:80</p><p class='ml-auto'>3:10</p></div><div class='border rounded' style='background-color: #ffffff;height: 4px;width: 90%;'></div></div>"
+              $('#episode').hide()
+              $('#box').hide();
+              $('#nomusic').hide();
 
+              switch (response.currently_playing_type) {
+                case "episode":
+                  $('#episode').show()
+                  break;
+                case "track":
+                  $('#box').show();
+                  if (response.item != null) { ScreenMusic(response); window.id = response.id } //função de carregamento na tela
+                  TimeBar(response.progress_ms, response.duration_ms)
+
+                  break;
+                default:
+                  $('#nomusic').show();
+                  break;
+              }
+              console.log(response)
+
+              /*            document.querySelector('#box').style.background = "linear-gradient(90deg, " + response.color[0] + "FF 0%, " + response.color[0] + "B3   100%)"
+                            document.querySelector('#right div').style.color = response.color[1]
+                            */
+
+            },
+            400: function (response) {
+              console.log("Erro na api /currently-playing - " + error)
+              refreshToken()
             }
           }
         })
@@ -259,25 +244,25 @@
       }
     }
 
-    function like(id) {
+    function ScreenMusic(x) {
+      document.querySelector("#right h1").innerText = x.item.name
+      document.querySelector("#right p").innerText = x.item.artists
+      document.querySelector('#left div').style.backgroundImage = "url('" + x.item.images[0] + "')"
 
-      $.ajax({
-        url: 'https://api.spotify.com/v1/me/tracks/contains?ids=' + id,
-        headers: {
-          'Authorization': 'Bearer ' + access_token
-        },
-        success: function (response) {
+      document.querySelector('#box').style.background = "linear-gradient(90deg, " + x.item.color[0] + "FF 0%, " + x.item.color[0] + "B3   100%)"
+      document.querySelector("#right div").style.color = x.item.color[1]
+      document.querySelector("#time_bar").style.backgroundColor = x.item.color[1]
+      document.querySelector("#time_bar").style.borderColor = x.item.color[1]
 
-          if (response[0] == true) {
-            try { document.querySelector("#like").classList.remove("far") } catch (error) { }
-            document.querySelector("#like").classList.add("fas")
-          } else {
-            try { document.querySelector("#like").classList.remove("fas") } catch (error) { }
-            document.querySelector("#like").classList.add("far")
-          }
-        }
-      })
+      try { document.querySelector("#like").classList.remove(!x.item.like ? "fas" : "far") } catch (error) { }
 
+
+      document.querySelector("#like").classList.add(x.item.like ? "fas" : "far")
+    }
+    function TimeBar(x, y) {
+      document.querySelector("#time_bar").style.width = ((x / y) * 100) + "%"
+      document.querySelector('#progress_ms').innerText = convertMS(x)
+      document.querySelector('#duration_ms').innerText = convertMS(y)
     }
 
     function refreshToken() {

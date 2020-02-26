@@ -38,13 +38,12 @@
 </head>
 
 <body style="background-color: #191414;">
-    <div id="login" class="container">
+    <div id="login" class="container-fluid container-lg">
         <div class="row align-items-center" style=" height: 99vh;">
             <div class="col-md-8 text-center text-white-50 text-uppercase" style="padding-top: 0vh;">
                 <h1 class="m-5 text-center ">Para fazer login use o codigo:</h1>
-                <h2 class="m-5 text-center display-2">191414</h2>
+                <h2 class="m-5 text-center display-2">000000</h2>
                 <h3 class="m-5 text-center"></h3>
-
             </div>
 
             <div class="col-md-4 text-center">
@@ -70,7 +69,8 @@
                     curent_code = data
                     document.querySelector('h2').innerText = data
                     document.querySelector('h3').innerText = window.location.host + "/qr"
-                    new QRCode(document.getElementById("qrcode"), {
+                    qrcode.makeCode("http://naver"); // make another code.
+                    new QRCode(document.getElementById(), {
                         text: (window.location.origin + '/login?qrcode=' + data),
                         width: 300,
                         height: 300,
@@ -85,6 +85,7 @@
             function loop() {
                 if (!i) {
                     i = 1;
+                    document.getElementById("qrcode").innerHTML = ""
                     code()
                 } else if (i > 5 * 60) {
                     i = 1
