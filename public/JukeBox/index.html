@@ -69,8 +69,8 @@
                     curent_code = data
                     document.querySelector('h2').innerText = data
                     document.querySelector('h3').innerText = window.location.host + "/qr"
-                    qrcode.makeCode("http://naver"); // make another code.
-                    new QRCode(document.getElementById(), {
+                    document.getElementById("qrcode").innerHTML = ""
+                    new QRCode(document.getElementById("qrcode"), {
                         text: (window.location.origin + '/login?qrcode=' + data),
                         width: 300,
                         height: 300,
@@ -78,6 +78,7 @@
                         colorLight: "#191414",
                         correctLevel: QRCode.CorrectLevel.H
                     })
+
                 });
             }
 
@@ -85,11 +86,9 @@
             function loop() {
                 if (!i) {
                     i = 1;
-                    document.getElementById("qrcode").innerHTML = ""
                     code()
                 } else if (i > 5 * 60) {
                     i = 1
-                    document.getElementById("qrcode").innerHTML = ""
                     ClearCode(curent_code)
                     code()
                 } else {
