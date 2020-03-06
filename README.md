@@ -1,7 +1,9 @@
 https://jukebr.herokuapp.com/JukeBox/
 # Jukefy
-Uma simples aplicação para tocar musicas do Spotify por meio de sua api/sdk e exibir a musica, com login por QRCode 
+Uma simples aplicação para exibir a musica tocando atualmente no Spotify por meio de sua api e exibir a musica, com login por QRCode 
 
+- Node JS
+- jQuery
 
 
 ## Instalação
