@@ -200,8 +200,7 @@
             'access_token': access_token,
             'music_id': window.id
           },
-          statusCode: {
-            200: function (response) {
+          success: function(response) {
               if ((response === null) || (response.is_playing === null)) {
                 console.log("Erro")
                 refreshToken()
@@ -232,11 +231,11 @@
                             */
 
             },
-            400: function (response) {
-              console.log("Erro na api /currently-playing - " + error)
+            error: function(xhr, ajaxOptions, thrownError) {
+                    console.log(xhr, ajaxOptions, thrownError);
+               console.log("Erro na api /currently-playing")
               refreshToken()
             }
-          }
         })
       } catch (error) {
         console.log("Erro na api /currently-playing - " + error)
