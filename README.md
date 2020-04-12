@@ -1,4 +1,4 @@
-https://jukebr.herokuapp.com/JukeBox/
+http://juke.testlabr.com/
 # Jukefy
 Uma simples aplicação para exibir a musica tocando atualmente no Spotify por meio de sua api e exibir a musica, com login por QRCode 
 
