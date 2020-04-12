@@ -60,8 +60,8 @@ app.use(express.static(__dirname + '/public'))
 	.use(cors())
 	.use(cookieParser());
 
-app.use("/api", require("./src/routes"))
-
+//app.use("/api", require("./src/routes"))
+//app.use("/", require("./src/routes"))
 
 app.get('/login', function (req, res) {
 

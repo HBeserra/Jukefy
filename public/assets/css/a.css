@@ -1,0 +1,263 @@
+#log, #loggedin {
+    display: none;
+}
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 500px;
+}
+
+@media (orientation: landscape) {
+    #left {
+        width: 100%;
+        height: 100vh;
+        max-width: 65vw;
+    }
+}
+
+@media (orientation: portrait) {
+    #left {
+        width: 100vw;
+        height: 100vw;
+    }
+}
+
+@media (orientation: portrait) {
+    #right {
+        height: 60vh;
+    }
+}
+
+@media (orientation: landscape) {
+    #right {
+        width: calc(100vw - 100vh);
+    }
+}
+
+@media (orientation: portrait) {
+    #box {
+        display: initial;
+    }
+}
+
+@media (orientation: landscape) {
+    #box {
+        display: flex;
+    }
+}
+
+* {
+    font-family: 'Fira Sans', sans-serif;
+    margin: 0;
+}
+
+body {
+    background-color: #191414;
+}
+
+#log {
+    width: 100%;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#log div {
+    display: flex;
+    align-items: center;
+    height: 99vh;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#log div #login {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+#login img {
+    max-width: 100%;
+    max-height: 10vh;
+}
+
+#login h3 {
+    color: #FFFFFF99;
+    margin-bottom: 5px;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+#login a {
+    width: auto;
+    height: 60px;
+    padding: 10px 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 30px;
+    text-align: center;
+    border-radius: 30px;
+    text-transform: uppercase;
+    border: #1DB954 solid 2px;
+}
+
+#login a:hover {
+    text-decoration: none;
+    background-color: rgba(29, 185, 84, 0.336);
+}
+
+#box {
+    width: 100%;
+    height: 100%;
+    background-color: #191414;
+    max-height: 100%;
+}
+
+#right div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    font-family: 'Fira Sans', sans-serif;
+    text-transform: uppercase;
+}
+
+#right div h1 {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    font-weight: 900;
+}
+
+#right div p {
+    font-size: 27px;
+    font-weight: 700;
+}
+
+#right div i {
+    font-size: 2em;
+}
+
+#right div div #time {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+#right div div .time_bar {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+#time_bar {
+    transition: width 1s;
+    height: 4px;
+    width: 0;
+    border-radius: 2px;
+}
+
+#nomusic {
+    width: 100%;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#nomusic div {
+    display: flex;
+    align-items: center;
+    height: 99vh;
+    flex-direction: column;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#nomusic div h4 {
+    font-size: 96px;
+}
+
+#nomusic div h2 {
+    font-size: 32px;
+}
+
+#episode {
+    width: 100%;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 96px;
+}
+
+@media (orientation: portrait) {
+    #box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+    }
+    #left {
+        background-position: center top;
+        height: 100vw;
+        max-width: 60vh;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #left div {
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100vw;
+        background-position: center center;
+        max-height: 65vh;
+    }
+    #right {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (orientation: landscape) {
+    #left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #left div {
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 100vh;
+        height: 100%;
+        background-position: left center;
+        max-width: 65vw;
+    }
+    #right {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    @media screen and (min-width: 1000px) {
+        #left div {
+            max-width: 600px;
+        }
+    }
+}
