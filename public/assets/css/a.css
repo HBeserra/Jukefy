@@ -101,6 +101,7 @@ body {
     border-radius: 31px;
     text-transform: uppercase;
     border: #1DB954 solid 2px;
+    text-decoration: none;
 }
 
 #login a:hover {
