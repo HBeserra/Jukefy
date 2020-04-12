@@ -129,11 +129,13 @@ body {
     font-weight: normal;
     font-size: 40px;
     font-weight: 900;
+    margin-bottom: 10px;
 }
 
 #right div p {
     font-size: 27px;
     font-weight: 700;
+    margin-bottom: 15px;
 }
 
 #right div i {
@@ -152,6 +154,7 @@ body {
     display: flex;
     align-items: flex-start;
     width: 100%;
+    margin-top: 10px;
 }
 
 #time_bar {
