@@ -28,7 +28,7 @@ const PORT = process.env.PORT || 3000;
 
 if (process.env.PORT != null) {
 	//var redirect_uri = "https://jukebr.herokuapp.com/callback"; // Your redirect uri
-	var redirect_uri = "https://juke.testlabr.com/callback"; // Your redirect uri
+	var redirect_uri = "http://juke.testlabr.com/callback"; // Your redirect uri
 	
 } else {
 	var redirect_uri = "http://localhost:3000/callback"; // Your redirect uri
