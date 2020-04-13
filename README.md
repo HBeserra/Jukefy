@@ -1,6 +1,10 @@
+
 http://juke.testlabr.com/
 # Jukefy
-Uma simples aplicação para exibir a musica tocando atualmente no Spotify por meio de sua api e exibir a musica, com login por QRCode 
+
+![captura de tela](https://raw.githubusercontent.com/HBeserra/Jukefy/master/docs/Captura%20de%20Tela.png)
+
+Uma simples aplicação para exibir a musica tocando atualmente no Spotify por meio de sua api e exibir a musica, com login por QRCode.
 
 - Node JS
 - jQuery
