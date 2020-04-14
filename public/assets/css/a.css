@@ -138,6 +138,7 @@ body {
     width: 90%;
     font-family: 'Fira Sans', sans-serif;
     text-transform: uppercase;
+    text-align: center;
 }
 
 #right div h1 {
@@ -250,6 +251,16 @@ body {
         height: 100%;
         align-items: center;
         justify-content: center;
+    }
+    #right div h1{
+        font-size: 3vh;
+    }
+    #right div p{
+        font-size: 2vh;
+    }
+    
+    #right div i{
+        font-size: 2vh;
     }
 }
 
