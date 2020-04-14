@@ -80,7 +80,10 @@
   
               switch (response.currently_playing_type) {
                 case "episode":
-                  $('#episode').show()
+                  $('#box').show();
+                  if (response.item != null) { ScreenMusic(response); window.id = response.id } //função de carregamento na tela
+                  TimeBar(response.progress_ms, response.duration_ms)
+  
                   break;
                 case "track":
                   $('#box').show();
