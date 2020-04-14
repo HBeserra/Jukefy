@@ -7,7 +7,6 @@
     "scope": "/",
     "start_url": "http://juke.testlabr.com/",
     "lang": "pt-BR",
-    "orientation": "portrait-primary",
     "icons": [
         {
             "src": "/assets/img/icons/ms-icon-310x310.png",
