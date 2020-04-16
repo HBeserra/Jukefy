@@ -9,7 +9,6 @@
     #left {
         width: 100%;
         height: 100vh;
-        max-width: 65vw;
     }
 }
 
@@ -47,6 +46,11 @@
 * {
     font-family: 'Fira Sans', sans-serif;
     margin: 0;
+}
+
+#left, #right {
+    transition: width 3s, font-size 2s;
+    transition: opacity 1s;
 }
 
 body {
@@ -125,10 +129,15 @@ body {
 }
 
 #box {
-    width: 100%;
+    width: 100vw;
     height: 100%;
     background-color: #191414;
     max-height: 100%;
+    display: flex;
+}
+
+#right {
+    height: 100vh;
 }
 
 #right div {
@@ -233,7 +242,6 @@ body {
     #left {
         background-position: center top;
         height: 100vw;
-        max-width: 60vh;
         margin-left: auto;
         margin-right: auto;
     }
@@ -243,7 +251,6 @@ body {
         width: 100%;
         height: 100vw;
         background-position: center center;
-        max-height: 65vh;
     }
     #right {
         display: flex;
@@ -252,14 +259,13 @@ body {
         align-items: center;
         justify-content: center;
     }
-    #right div h1{
+    #right div h1 {
         font-size: 3vh;
     }
-    #right div p{
+    #right div p {
         font-size: 2vh;
     }
-    
-    #right div i{
+    #right div i {
         font-size: 2vh;
     }
 }
@@ -276,7 +282,6 @@ body {
         width: 100vh;
         height: 100%;
         background-position: left center;
-        max-width: 65vw;
     }
     #right {
         display: flex;
@@ -297,4 +302,16 @@ input[type=number] {
 
 textarea:focus, input:focus {
     outline: none;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    #right h1, #right p, #right i{
+        font-size: 30vh;
+
+    }
+    body{
+        background-color: #1DB954;
+    }
 }
