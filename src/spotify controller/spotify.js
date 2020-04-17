@@ -11,6 +11,9 @@ var stateKey = 'spotify_auth_state';
 
 var redirect_uri = (process.env.PORT != null) ? "http://juke.testlabr.com/callback" : "http://localhost:3000/callback"
 console.log("redirect_uri:" + redirect_uri)
+
+var a = require("../login")
+var login = a.login
 module.exports = {
     login(req, res) {
         var state = functions.generateRandomString(16);

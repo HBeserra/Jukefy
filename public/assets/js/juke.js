@@ -51,8 +51,8 @@ var t,
       myVar = setInterval(loop, 1000)
     } else {
       // render initial screen
-      $('#log').show();
-      $('#box').hide();
+      document.getElementById("log").style.display = "flex"
+      $('#box').hide()
       //$('#loggedin').hide();
     }
   }
@@ -154,9 +154,13 @@ function convertMS(milliseconds) {
   seconds = Math.floor(milliseconds / 1000);
   minute = Math.floor(seconds / 60);
   seconds = seconds % 60;
-  minute = minute % 60;
+
+
   if (seconds < 10) {
     seconds = '0' + seconds
+  }
+  if (minute < 10) {
+    minute = '0' + minute
   }
   return (minute + ":" + seconds)
 }
